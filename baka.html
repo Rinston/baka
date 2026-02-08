@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Favorite Baka ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-pink: #ff4d6d;
+            --soft-pink: #fff0f3;
+            --dark-pink: #c9184a;
+            --glass: rgba(255, 255, 255, 0.85);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ffafbd 0%, #ffc3a0 100%);
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+
+        /* FLOATING HEARTS ANIMATION */
+        .heart-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+
+        .heart-particle {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.6);
+            animation: float 10s infinite linear;
+            font-size: 20px;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* MAIN CARD STYLING */
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 380px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            animation: cardEntry 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+
+        @keyframes cardEntry {
+            from { opacity: 0; transform: scale(0.8) translateY(50px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        h2 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--dark-pink);
+            font-size: 2.5rem;
+            margin: 0 0 15px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* INPUTS & BUTTONS */
+        input {
+            width: 100%;
+            padding: 14px;
+            margin: 12px 0;
+            border: 2px solid transparent;
+            border-radius: 15px;
+            background: white;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            transition: 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-pink);
+            box-shadow: 0 0 15px rgba(255, 77, 109, 0.2);
+        }
+
+        button {
+            background: var(--primary-pink);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: var(--dark-pink);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 77, 109, 0.6);
+        }
+
+        button:active { transform: scale(0.95); }
+
+        /* MODAL ANIMATION */
+        #custom-modal {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: white;
+            padding: 30px;
+            border-radius: 25px;
+            z-index: 3000;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 0 0 100vw rgba(201, 24, 74, 0.3), 0 20px 40px rgba(0,0,0,0.2);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        #custom-modal.active { transform: translate(-50%, -50%) scale(1); }
+
+        .hidden { display: none !important; }
+
+        .quiz-option {
+            background: white;
+            color: #444;
+            border: 1px solid #ffccd5;
+            margin: 8px 0;
+            width: 100%;
+        }
+
+        .hint-text {
+            display: block;
+            margin-top: 15px;
+            font-size: 0.8rem;
+            color: var(--dark-pink);
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+        .hint-text:hover { opacity: 1; text-decoration: underline; }
+
+        #no-button { transition: 0.2s ease; z-index: 10; }
+    </style>
+</head>
+<body>
+
+    <div class="heart-bg" id="heartContainer"></div>
+
+    <div id="custom-modal">
+        <div style="font-size: 3rem; margin-bottom: 10px;">✨</div>
+        <p id="modal-text" style="font-weight: 600; color: #333; line-height: 1.5;"></p>
+        <button onclick="closeModal()">Got it! 💖</button>
+    </div>
+
+    <div id="page1" class="card">
+        <h2>Hi Beautiful! 👑</h2>
+        <p style="color: #666; font-size: 0.9rem;">Identity verification required for the VIP...</p>
+        <input type="text" id="username" placeholder="Your Name Gorgeous">
+        <input type="password" id="password" placeholder="The Date...">
+        <button onclick="checkLogin()">Enter My Heart 🔓</button>
+        <span class="hint-text" onclick="showMsg('Hint: The day we officially became \'Us\'. 👩‍❤️‍👨<br>(Format: DDMYYYY)')">Forgotten the code? 🤫</span>
+    </div>
+
+    <div id="page2" class="card hidden">
+        <h3 id="quiz-question" style="font-family: 'Dancing Script'; font-size: 1.8rem; color: var(--dark-pink);"></h3>
+        <div id="options-container"></div>
+        <button id="next-btn" class="hidden" onclick="goToFinalPage()">One Last Thing... 🌸</button>
+    </div>
+
+    <div id="page3" class="card hidden">
+        <h2>Wait... 🌹🥺✨</h2>
+        <p>Will you be my valentine for life?</p>
+        <div style="display: flex; justify-content: space-evenly; margin-top: 30px; position: relative; height: 100px; align-items: center;">
+            <button id="yes-button" onclick="finalize()">Yes! Forever 💖</button>
+            <button id="no-button" onclick="handleNo()">No 💀</button>
+        </div>
+    </div>
+
+    <script>
+        // CREATE FLOATING HEARTS
+        function createHearts() {
+            const container = document.getElementById('heartContainer');
+            const icons = ['❤️', '💖', '✨', '🌸', '💕' , '🥰' , 'S' , 'R' , 'S' , 'S' , 'R' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , '❤️', '💖', '✨', '🌸', '💕' , '🥰' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , '❤️', '💖', '✨', '🌸', '💕' , '🥰' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , '❤️', '💖', '✨', '🌸', '💕' , '🥰', 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' , 'S' , 'R' ,'❤️', '💖', '✨', '🌸', '💕' , '🥰' ]
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart-particle';
+                heart.innerText = icons[Math.floor(Math.random(1,10) * icons.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 1 + 3) + 's';
+                heart.style.delay = Math.random() * 0.5 + 's';
+                container.appendChild(heart);
+            }
+        }
+        createHearts();
+
+        let attempts = 0;
+        let currentQuiz = 0;
+        let noClicks = 0;
+
+        function showMsg(text) {
+            const modal = document.getElementById('custom-modal');
+            document.getElementById('modal-text').innerHTML = text;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('custom-modal').classList.remove('active');
+        }
+
+        function checkLogin() {
+            const pass = document.getElementById('password').value;
+            attempts++;
+
+            if (pass === "542018") {
+                document.getElementById('page1').style.display = 'none';
+                document.getElementById('page2').classList.remove('hidden');
+                
+                let loginMsg = attempts === 1 ? "You are Amazing! I Love you! 😍" : 
+                               attempts === 2 ? "Baka! Love you! 🙄💞" : 
+                               "What took you so long, BAKA!! Love you 😤❤️";
+                
+                showMsg(loginMsg);
+                loadQuiz();
+            } else {
+                showMsg("That's not it! 😋<br>Think of our special day...");
+            }
+        }
+
+        const questions = [
+            { q: "Our 1st movie together? 🍿", options: ["Conjuring", "Chava", "Zootopia", "Dhurandar"], correct: 0, msg: "Not bad! 👻🎬" },
+            { q: "First Date... what did I get for you?", options: ["Sandwich", "Pizza", "Laddu", "Chocolate"], correct: 1, msg: "I waited for an hour at the station! 😤🍕" },
+            { q: "Who is always late for Dates? ⏰", options: ["Me", "Sharddha", "Baka", "All of the above"], correct: [0,1,2,3], msg: "I can wait for you for the rest of my life! ♾️❤️" },
+            { q: "What do you like most about me? 💖", options: ["Good Boy", "Very Good Boy", "Is Always Right", "He is Perfect"], correct: [0,1,2,3], msg: "I know, thanks! Love you too! 🥰✨" }
+        ];
+
+        function loadQuiz() {
+            const qData = questions[currentQuiz];
+            const qHeader = document.getElementById('quiz-question');
+            qHeader.style.opacity = 0;
+            
+            setTimeout(() => {
+                qHeader.innerText = qData.q;
+                qHeader.style.opacity = 1;
+                const container = document.getElementById('options-container');
+                container.innerHTML = '';
+
+                qData.options.forEach((opt, index) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'quiz-option';
+                    btn.innerText = opt;
+                    btn.onclick = () => handleAnswer(index);
+                    container.appendChild(btn);
+                });
+            }, 300);
+        }
+
+        function handleAnswer(index) {
+            const qData = questions[currentQuiz];
+            const isCorrect = Array.isArray(qData.correct) ? qData.correct.includes(index) : index === qData.correct;
+
+            if (isCorrect) {
+                showMsg(qData.msg);
+                currentQuiz++;
+                if (currentQuiz < questions.length) {
+                    setTimeout(loadQuiz, 500);
+                } else {
+                    document.getElementById('options-container').innerHTML = '';
+                    document.getElementById('quiz-question').innerText = "Quiz Clear! 🏆✨";
+                    document.getElementById('next-btn').classList.remove('hidden');
+                }
+            } else {
+                showMsg("Wrong answer! <br> Try again, Baka! 🧐💔");
+            }
+        }
+
+        function goToFinalPage() {
+            document.getElementById('page2').classList.add('hidden');
+            document.getElementById('page3').classList.remove('hidden');
+        }
+
+        function handleNo() {
+            noClicks++;
+            const yesBtn = document.getElementById('yes-button');
+            const noBtn = document.getElementById('no-button');
+
+            if (noClicks <= 2) {
+                let temp = yesBtn.innerText;
+                yesBtn.innerText = noBtn.innerText;
+                noBtn.innerText = temp;
+            } else {
+                noBtn.style.position = 'fixed';
+                noBtn.style.top = Math.random() * 70 + 15 + '%';
+                noBtn.style.left = Math.random() * 70 + 15 + '%';
+            }
+        }
+
+        function finalize() {
+            const yesBtn = document.getElementById('yes-button');
+            if (yesBtn.innerText.includes("No")) {
+                handleNo();
+                return;
+            }
+            
+            // FINAL TRANSITION
+            document.body.style.transition = "background 2s ease";
+            document.body.style.background = "radial-gradient(circle, #ff4d6d, #c9184a)";
+            
+            document.body.innerHTML = `
+                <div class="card" style="width: 450px; animation: cardEntry 1.5s forwards;">
+                    <h2 style="font-size: 3rem;">Forever & Always 👩‍❤️‍💋‍👨</h2>
+                    <p style="font-size: 1.2rem; line-height: 1.8; color: #444;">
+                        "I love you, I always will no matter what. <br>
+                        If I can wait 3 years, I can wait for 30 more."
+                    </p>
+                    <div style="font-size: 4rem; margin-top: 20px;">💍✨❤️</div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
